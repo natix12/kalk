@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Fee Mitra — Kamari Namuah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F5F6F3;
+    --card: #FFFFFF;
+    --teal: #0E6B5C;
+    --teal-deep: #0A4F44;
+    --teal-tint: #E4F1EE;
+    --amber: #D98E3B;
+    --amber-tint: #FBF0E1;
+    --ink: #1B2420;
+    --ink-soft: #5B6863;
+    --line: #E4E6E1;
+    --danger: #B4472F;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', system-ui, sans-serif;
+    padding:32px 16px 64px;
+    min-height:100vh;
+  }
+  .wrap{
+    max-width:520px;
+    margin:0 auto;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--teal);
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:26px;
+    font-weight:700;
+    margin:0 0 4px;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    color:var(--ink-soft);
+    font-size:14px;
+    margin:0 0 20px;
+    line-height:1.5;
+  }
+  .scope-note{
+    background:var(--amber-tint);
+    border:1px solid #EFD6AE;
+    border-radius:10px;
+    padding:10px 14px;
+    font-size:12.5px;
+    color:#7A5620;
+    margin-bottom:24px;
+    line-height:1.5;
+  }
+  .scope-note b{color:#5C4218;}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:16px;
+  }
+  .field{
+    margin-bottom:18px;
+  }
+  .field:last-child{margin-bottom:0;}
+  label{
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:7px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+  .rp-input{
+    display:flex;
+    align-items:center;
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    background:#fff;
+    transition:border-color .15s;
+  }
+  .rp-input:focus-within{border-color:var(--teal);}
+  .rp-input span{
+    padding:12px 10px 12px 14px;
+    color:var(--ink-soft);
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:15px;
+  }
+  .rp-input input{
+    border:none;
+    outline:none;
+    padding:12px 14px 12px 2px;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:16px;
+    font-weight:600;
+    width:100%;
+    color:var(--ink);
+    background:transparent;
+  }
+  select, .stepper{
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    background:#fff;
+  }
+  select{
+    width:100%;
+    padding:12px 14px;
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    font-weight:500;
+    color:var(--ink);
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%235B6863'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+  }
+  .rating-desc{
+    margin-top:8px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.5;
+    background:var(--teal-tint);
+    border-radius:8px;
+    padding:9px 12px;
+  }
+  .stepper{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:6px 8px;
+  }
+  .stepper button{
+    width:34px;height:34px;
+    border-radius:8px;
+    border:none;
+    background:var(--teal-tint);
+    color:var(--teal-deep);
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+    line-height:1;
+  }
+  .stepper button:active{background:var(--teal);color:#fff;}
+  .stepper .count{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:17px;
+  }
+
+  .result-card{
+    background:linear-gradient(180deg, var(--teal-deep), var(--teal));
+    color:#fff;
+    border-radius:16px;
+    padding:24px 22px 20px;
+  }
+  .result-label{
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    opacity:0.75;
+    font-weight:600;
+    margin-bottom:2px;
+  }
+  .split-bar{
+    display:flex;
+    height:14px;
+    border-radius:999px;
+    overflow:hidden;
+    margin:14px 0 8px;
+    background:rgba(255,255,255,0.15);
+  }
+  .split-bar .mitra{
+    background:#fff;
+    transition:width .25s ease;
+  }
+  .split-bar .kantor{
+    background:var(--amber);
+    transition:width .25s ease;
+  }
+  .split-legend{
+    display:flex;
+    justify-content:space-between;
+    font-size:12.5px;
+    font-weight:600;
+    margin-bottom:18px;
+  }
+  .split-legend .m{color:#fff;}
+  .split-legend .k{color:#FFDDA8;}
+
+  .numbers{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-bottom:16px;
+  }
+  .num-box{
+    background:rgba(255,255,255,0.08);
+    border-radius:10px;
+    padding:12px 14px;
+  }
+  .num-box .l{
+    font-size:11px;
+    opacity:0.75;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-bottom:4px;
+  }
+  .num-box .v{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:19px;
+    font-weight:700;
+  }
+  .num-box.wide{grid-column:1/-1;}
+
+  .meta-line{
+    font-size:12.5px;
+    opacity:0.85;
+    border-top:1px solid rgba(255,255,255,0.18);
+    padding-top:12px;
+    line-height:1.6;
+  }
+  .meta-line b{font-weight:700;}
+
+  .footnote{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    text-align:center;
+    margin-top:18px;
+    line-height:1.6;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Kamari Namuah · Skema Cleaning</div>
+  <h1>Kalkulator Fee Mitra</h1>
+  <p class="sub">Hitung pembagian upah mitra & kantor otomatis berdasarkan rating kesulitan dan nilai job.</p>
+
+  <div class="scope-note">
+    <b>Khusus job cleaning.</b> Pindahan, perbaikan, renovasi, dan cuci AC nggak pakai skema ini.
+  </div>
+
+  <div class="card">
+    <div class="field">
+      <label for="nilai">Nilai Job</label>
+      <div class="rp-input">
+        <span>Rp</span>
+        <input type="text" inputmode="numeric" id="nilai" value="2.100.000">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="material">Biaya Material (opsional)</label>
+      <div class="rp-input">
+        <span>Rp</span>
+        <input type="text" inputmode="numeric" id="material" value="0">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="rating">Rating Kesulitan</label>
+      <select id="rating">
+        <option value="1">Rating 1 — Sangat Ringan</option>
+        <option value="2">Rating 2 — Ringan</option>
+        <option value="3" selected>Rating 3 — Sedang</option>
+        <option value="4">Rating 4 — Berat</option>
+        <option value="5">Rating 5 — Sangat Berat</option>
+      </select>
+      <div class="rating-desc" id="ratingDesc"></div>
+    </div>
+
+    <div class="field">
+      <label>Jumlah Pekerja</label>
+      <div class="stepper">
+        <button type="button" id="minus">−</button>
+        <span class="count" id="orangCount">6</span>
+        <button type="button" id="plus">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="result-label">Alokasi Upah Mitra</div>
+    <div class="split-bar">
+      <div class="mitra" id="barMitra" style="width:57%"></div>
+      <div class="kantor" id="barKantor" style="width:43%"></div>
+    </div>
+    <div class="split-legend">
+      <span class="m" id="pctMitra">Mitra 57%</span>
+      <span class="k" id="pctKantor">Kantor 43%</span>
+    </div>
+
+    <div class="numbers">
+      <div class="num-box">
+        <div class="l">Upah Tim</div>
+        <div class="v" id="upahTim">Rp0</div>
+      </div>
+      <div class="num-box">
+        <div class="l">Upah / Orang</div>
+        <div class="v" id="upahOrang">Rp0</div>
+      </div>
+      <div class="num-box wide">
+        <div class="l">Bagian Kantor</div>
+        <div class="v" id="bagianKantor">Rp0</div>
+      </div>
+    </div>
+
+    <div class="meta-line" id="metaLine"></div>
+  </div>
+
+  <p class="footnote">Rating 3 pada tier Rp700rb–1,5jt (60%) tervalidasi dari job riil.<br>Sel lainnya masih titik awal — sesuaikan sesuai kebutuhan.</p>
+</div>
+
+<script>
+  const ratingBase = {1:55, 2:57, 3:60, 4:63, 5:65};
+  const ratingDesc = {
+    1: 'Kondisi normal, area kecil (≤2 jam). Contoh: cleaning kamar kos, 1 ruangan kecil.',
+    2: 'Kondisi normal, rumah kecil/studio (2–4 jam).',
+    3: 'Kondisi normal, general/deep cleaning menyeluruh — berapa pun ukuran rumahnya.',
+    4: 'Kondisi ekstrem sebagian: kotor berat di beberapa area, atau pasca-renovasi ringan.',
+    5: 'Kondisi ekstrem menyeluruh: kotor berat bertahun-tahun, atau pasca-bangun skala besar.'
+  };
+
+  const nilaiEl = document.getElementById('nilai');
+  const materialEl = document.getElementById('material');
+  const ratingEl = document.getElementById('rating');
+  const ratingDescEl = document.getElementById('ratingDesc');
+  const orangCountEl = document.getElementById('orangCount');
+  const minusBtn = document.getElementById('minus');
+  const plusBtn = document.getElementById('plus');
+
+  let jumlahOrang = 6;
+
+  function parseRp(str){
+    const digits = str.replace(/[^0-9]/g, '');
+    return digits ? parseInt(digits, 10) : 0;
+  }
+  function formatRp(n){
+    return 'Rp' + Math.round(n).toLocaleString('id-ID');
+  }
+  function formatInput(el){
+    const n = parseRp(el.value);
+    el.value = n ? n.toLocaleString('id-ID') : '';
+  }
+
+  function tierInfo(nilai){
+    if(nilai <= 1500000) return {adj:0, label:'Rp700rb–1,5jt'};
+    if(nilai <= 3000000) return {adj:-3, label:'Rp1,5jt–3jt'};
+    if(nilai <= 5000000) return {adj:-6, label:'Rp3jt–5jt'};
+    return {adj:-9, label:'>Rp5jt'};
+  }
+
+  function calculate(){
+    const nilai = parseRp(nilaiEl.value);
+    const material = parseRp(materialEl.value);
+    const rating = parseInt(ratingEl.value, 10);
+    ratingDescEl.textContent = ratingDesc[rating];
+
+    let alokasi, tierLabel, isOldScheme = false;
+
+    if(nilai <= 700000){
+      alokasi = 70;
+      tierLabel = 'Skema lama (≤ Rp700rb)';
+      isOldScheme = true;
+    } else {
+      const t = tierInfo(nilai);
+      alokasi = ratingBase[rating] + t.adj;
+      tierLabel = t.label;
+    }
+
+    const nilaiBersih = Math.max(nilai - material, 0);
+    const upahTim = nilaiBersih * (alokasi/100);
+    const upahOrang = jumlahOrang > 0 ? upahTim / jumlahOrang : 0;
+    const bagianKantor = nilaiBersih - upahTim;
+    const kantorPct = 100 - alokasi;
+
+    document.getElementById('barMitra').style.width = alokasi + '%';
+    document.getElementById('barKantor').style.width = kantorPct + '%';
+    document.getElementById('pctMitra').textContent = 'Mitra ' + alokasi + '%';
+    document.getElementById('pctKantor').textContent = 'Kantor ' + kantorPct + '%';
+    document.getElementById('upahTim').textContent = formatRp(upahTim);
+    document.getElementById('upahOrang').textContent = formatRp(upahOrang);
+    document.getElementById('bagianKantor').textContent = formatRp(bagianKantor);
+
+    const materialLine = material > 0 ? ` · Material ${formatRp(material)} dikeluarkan duluan` : '';
+    document.getElementById('metaLine').innerHTML =
+      (isOldScheme
+        ? '<b>Tier:</b> ' + tierLabel
+        : '<b>Rating ' + rating + '</b> · <b>Tier</b> ' + tierLabel)
+      + materialLine;
+  }
+
+  nilaiEl.addEventListener('input', () => { formatInput(nilaiEl); calculate(); });
+  materialEl.addEventListener('input', () => { formatInput(materialEl); calculate(); });
+  ratingEl.addEventListener('change', calculate);
+  minusBtn.addEventListener('click', () => { if(jumlahOrang > 1){ jumlahOrang--; orangCountEl.textContent = jumlahOrang; calculate(); }});
+  plusBtn.addEventListener('click', () => { jumlahOrang++; orangCountEl.textContent = jumlahOrang; calculate(); });
+
+  formatInput(nilaiEl);
+  formatInput(materialEl);
+  calculate();
+</script>
+</body>
+</html>
